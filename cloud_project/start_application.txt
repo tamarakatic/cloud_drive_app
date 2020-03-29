@@ -1,0 +1,6 @@
+in Downloads =>
+    ssh -i "cloud.pem" ec2-user@ec2-107-21-46-4.compute-1.amazonaws.com
+
+cd cloud_projects/cloud_project/
+
+python3 manage.py runserver 0.0.0.0:8000

@@ -1,0 +1,61 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+   
+    <body>
+      <div class="content-section">
+        <h2 class="account-heading">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
+      </div>
+      <div class="container">
+        <div class="section">
+          <h1 class="is-size-1">Upload Image</h1>
+          <hr><br>
+          <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data" class="form">
+            {% csrf_token %}
+            <div class="field">
+              <div class="control">
+                <div class="file">
+                  <label class="file-label">
+                    <input class="file-input" type="file" name="image_file">
+                  </label>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="field">
+              <div class="control">
+                <input type="submit" value="Submit" class="button is-primary" />
+              </div>
+            </div>
+          </form>
+          <br><br>
+          {% if image_url %}
+          <p>File uploaded at: <a href="{{ image_url }}">{{ image_url }}</a></p>
+          {% endif %}
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Uploaded at</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for document in documents %}
+          <tr>
+            <td><a href="{{ document.file.url }}" target="_blank">{{ document.file }}</a></td>
+            <td>{{ document.uploaded_at }}</td>
+            <td><a href="/delete/?parameter={{ document.file }}">Delete</a></td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="3">No data.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </body>
+{% endblock content %}
